@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+
+    <PackageId>EvilPkg.Benign</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Adrian Bailador</Authors>
+    <Description>
+      Lab-only proof of concept for a blog article on NuGet supply chain risk.
+      Demonstrates that a NuGet package can run arbitrary MSBuild logic during
+      `dotnet build`/`dotnet restore` via a buildTransitive .targets file, with
+      no call from the consuming project's own source code. The payload here is
+      intentionally harmless: it only writes a local marker file. It never makes
+      a network call, never touches credentials, and is never published to
+      nuget.org or any public feed. See the article and README for context.
+    </Description>
+    <IsPackable>true</IsPackable>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="buildTransitive\EvilPkg.Benign.targets" Pack="true" PackagePath="buildTransitive\EvilPkg.Benign.targets" />
+  </ItemGroup>
+
+</Project>

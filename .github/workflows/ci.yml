@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Run attack and defense scenarios
+        # Scoped to the test project on purpose: the fixture packs and copies
+        # everything else it needs into its own isolated temp dir, so this
+        # never needs local-lab-feed/ populated at the repo root first.
+        run: dotnet test tests/SupplyChainDefense.Tests/SupplyChainDefense.Tests.csproj --configuration Release

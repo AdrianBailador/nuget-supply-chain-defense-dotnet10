@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DefensiveApp/DefensiveApp.csproj" />
+    <Project Path="src/EvilPkg.Benign/EvilPkg.Benign.csproj" />
+    <Project Path="src/VictimApp/VictimApp.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SupplyChainDefense.Tests/SupplyChainDefense.Tests.csproj" />
+  </Folder>
+</Solution>

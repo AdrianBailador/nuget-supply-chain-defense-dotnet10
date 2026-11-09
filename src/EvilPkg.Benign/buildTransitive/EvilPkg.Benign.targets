@@ -1,0 +1,28 @@
+<Project>
+
+  <!--
+    This file is auto-imported by MSBuild for ANY project that references this
+    package, directly or transitively — no using directive, no method call,
+    nothing in the consumer's C# source triggers it. That is the entire point
+    of the demo: NuGet packages are also MSBuild extensions, and MSBuild
+    extensions run arbitrary logic at build/restore time.
+
+    The target below is deliberately harmless: it writes one line to a local
+    text file next to the consuming project. In a real attack this is where
+    an <Exec> task, a PowerShell/bash one-liner, or a dropped binary would run
+    with the same privileges as the build agent — reading environment
+    variables, CI secrets, or source code, and reaching out over the network.
+  -->
+
+  <Target Name="EvilPkgBenignPoC" BeforeTargets="Build">
+    <PropertyGroup>
+      <_PoCMarkerPath>$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', 'supply-chain-poc-marker.txt'))</_PoCMarkerPath>
+      <_PoCLine>supply-chain-poc executed at $([System.DateTime]::UtcNow.ToString('o')) for project $(MSBuildProjectName) (user=$([System.Environment]::UserName))</_PoCLine>
+    </PropertyGroup>
+
+    <WriteLinesToFile File="$(_PoCMarkerPath)" Lines="$(_PoCLine)" Overwrite="true" />
+
+    <Message Importance="high" Text="[EvilPkg.Benign] Build-time PoC executed for $(MSBuildProjectName). This proves a referenced NuGet package ran MSBuild logic during 'dotnet build' with no call in your own code. See the article for the defensive configuration that blocks this." />
+  </Target>
+
+</Project>
